@@ -1,6 +1,8 @@
 //discovery.js
 var util = require('../../utils/util.js')
+
 Page({
+  // 页面的初始数据
   data: {
     navTab: ["推荐", "圆桌", "热门", "收藏"],
     currentNavtab: "0",
@@ -16,38 +18,56 @@ Page({
     feed: [],
     feed_length: 0
   },
+  // 监听页面加载
   onLoad: function () {
     console.log('onLoad')
     var that = this
-    //调用应用实例的方法获取全局数据
+    // 调用应用实例的方法获取全局数据
     this.refresh();
   },
+
+  // tab点击切换
   switchTab: function(e){
+    console.log(e);
     this.setData({
+      // 当前tab赋值
       currentNavtab: e.currentTarget.dataset.idx
     });
   },
 
+  // 问题标题点击
+  bindQueTap: function () {
+    wx.navigateTo({
+      url: '../question/question'
+    })
+  },
+
+  // 问题内容点击
   bindItemTap: function() {
     wx.navigateTo({
       url: '../answer/answer'
     })
   },
-  bindQueTap: function() {
-    wx.navigateTo({
-      url: '../question/question'
-    })
-  },
+ 
+  // 碰头更新
   upper: function () {
     wx.showNavigationBarLoading()
     this.refresh();
     console.log("upper");
-    setTimeout(function(){wx.hideNavigationBarLoading();wx.stopPullDownRefresh();}, 2000);
+    setTimeout(function(){
+      wx.hideNavigationBarLoading();
+      wx.stopPullDownRefresh();
+    }, 2000);
   },
+
+  // 触底更新
   lower: function (e) {
     wx.showNavigationBarLoading();
     var that = this;
-    setTimeout(function(){wx.hideNavigationBarLoading();that.nextLoad();}, 1000);
+    setTimeout(function(){
+      wx.hideNavigationBarLoading();
+      that.nextLoad();
+    }, 1000);
     console.log("lower")
   },
   //scroll: function (e) {
@@ -66,7 +86,7 @@ Page({
         });
   },
 
-  //使用本地 fake 数据实现刷新效果
+  // 刷新列表内容（使用本地 fake 数据实现刷新效果）
   refresh: function(){
     var feed = util.getDiscovery();
     console.log("loaddata");
@@ -77,7 +97,7 @@ Page({
     });
   },
 
-  //使用本地 fake 数据实现继续加载效果
+  // 加载列表内容（使用本地 fake 数据实现继续加载效果）
   nextLoad: function(){
     var next = util.discoveryNext();
     console.log("continueload");

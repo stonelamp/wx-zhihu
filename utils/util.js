@@ -25,6 +25,7 @@ var index_next = require('../data/data_index_next.js')
 var discovery = require('../data/data_discovery.js')
 var discovery_next = require('../data/data_discovery_next.js')
 
+// 获取列表数据
 function getData(url){
   return new Promise(function(resolve, reject){
     wx.request({
@@ -45,6 +46,7 @@ function getData(url){
   })
 }
 
+// 获取列表数据（使用本地 fake 数据实现刷新效果）
 function getData2(){
   return index.index;
 }
